@@ -1,0 +1,86 @@
+{% extends 'store/base.html' %}
+
+{% load static%}
+
+<style>
+    .body {
+        font-family: Arial, sans-serif;
+        background-image: url('{% static "static/store/images/HALAL.png" %}');
+        background-size: cover; 
+        background-repeat: no-repeat;
+        background-position: center center;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .signup {
+        max-width: 400px;
+        width: 100%;
+        padding: 20px;
+        
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .signup h2 {
+        color: #32de84;
+    }
+
+    .signup form {
+        margin-top: 20px;
+    }
+
+    .signup form label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .signup form input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #87A96B;
+        border-radius: 4px;
+        margin-top: 6px;
+        margin-bottom: 10px;
+    }
+
+    .signup form button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .signup form button:hover {
+        background-color: #0056b3;
+    }
+
+    .signup h2 {
+        color: #32de84;
+    }
+
+</style>
+
+
+{% block content %}
+<body style="background-image: url( 'static/store/images/HALAL.png' );">
+    <div class="signup-container">
+        <div class="signup">
+        <form method="post" enctype="multipart/form-data" action="{% url 'add_product' %}">
+            <h2>Add Product</h2>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+    </div>
+</body>
+{% endblock %}

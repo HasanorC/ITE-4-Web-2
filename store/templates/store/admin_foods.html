@@ -1,0 +1,95 @@
+{% extends 'store/base.html' %}
+
+<style>
+    .centerText {
+        text-align: center;
+    }
+</style>
+
+
+
+{% block content %}
+    <h2 class="centerText">ORDERS</h2>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td><img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" width="250" length="250"></td>
+                    <td>{{ product.price }}</td>
+                    <td>
+                        <a href="{% url 'edit_product' product.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm delete-product" data-product-id="{{ product.pk }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Delete confirmation modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Are you sure you want to delete this product?</p>
+            <button id="confirmDelete" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Attach event listener to delete links
+            const deleteLinks = document.querySelectorAll('.delete-product');
+            const deleteModal = document.getElementById('deleteModal');
+            const confirmDeleteBtn = document.getElementById('confirmDelete');
+
+            deleteLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
+                    deleteModal.style.display = 'block';
+
+                    confirmDeleteBtn.onclick = function () {
+                        // Create a form dynamically and submit it
+                        const form = document.createElement('form');
+                        form.method = 'post';
+                        form.action = '{% url "delete_product" 0 %}'.replace('0', productId);
+                        form.style.display = 'none';
+
+                        const csrfInput = document.createElement('input');
+                        csrfInput.type = 'hidden';
+                        csrfInput.name = 'csrfmiddlewaretoken';
+                        csrfInput.value = '{{ csrf_token }}';
+
+                        const methodInput = document.createElement('input');
+                        methodInput.type = 'hidden';
+                        methodInput.name = 'method';
+                        methodInput.value = 'delete';
+
+                        form.appendChild(csrfInput);
+                        form.appendChild(methodInput);
+
+                        document.body.appendChild(form);
+                        form.submit();
+                    };
+                });
+            });
+
+            // Close the modal if the user clicks outside of it or on the close button
+            window.onclick = function (event) {
+                if (event.target === deleteModal || event.target.classList.contains('close')) {
+                    deleteModal.style.display = 'none';
+                }
+            };
+        });
+    </script>
+{% endblock %}

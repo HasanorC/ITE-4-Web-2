@@ -1,0 +1,44 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+    <h2>ALL PRODUCTS IN OUR SHOP</h2>
+    <style>
+        h2{
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        .product-image {
+            max-width: 500px; 
+            height: 250px;
+        }
+    </style>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top product-image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">Price: ₱{{ product.price }}</p>
+                        <a href="#" class="btn btn-primary add-to-cart" data-product-id="{{ product.id }}" >
+                            Order                      
+                        </a>
+                        <a href="#" class="btn btn-primary add-to-cart" data-product-id="{{ product.id }}" >
+                            Add to Cart                      
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

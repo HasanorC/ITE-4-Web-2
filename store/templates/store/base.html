@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}FOOD{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/auth.css' %}">
+</head>
+<style>
+        .body {
+            background-image: url('{% static "store/images/HALAL.png" %}'); 
+            background-size: cover; 
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        
+
+        .navbar { 
+            overflow: hidden;
+                           
+        }
+        .navbar a {
+            float: center;
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            flex-direction: row;
+            gap: 38px;
+        }
+
+        /* Logo styles */
+        .logo-container {
+            float: right;
+            display: flex;
+            align-items: center;
+        }
+
+        .li a {
+            float: right;
+            display: flex;
+            align-items: center;
+            
+        }
+        
+</style>
+
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+	{% if user.is_authenticated %}
+            {% if user.is_staff %}
+        	<div class="collapse navbar-collapse" id="navbarNav">    
+                <div class="logo-container">
+                    <a class="navbar-brand">
+                        <img src="static/store/images/HALAL.png" 
+                        width="80" height="40"><strong>Maranao Cuisine</strong>
+                    </a>
+                </div>     		
+                <a href="{% url 'admin_categories' %}"><strong>Categories</strong></a>
+                <a href="{% url 'admin_products' %}"><strong>Menu</strong></a>
+                <a href="{% url 'product_list' %}"><strong>Home</strong></a>
+                <a href="{% url 'about' %}"><strong>About</strong></a>
+                <a href="{% url 'add_product' %}"><strong>Add Food</strong></a>
+                <a href="{% url 'add_category' %}"><strong>Add Food Category</strong></a>
+                <a href="{% url 'logout' %}"><strong>Logout</strong></a>
+                <nav class="navbar bg-body-tertiary">
+                    
+                </nav>
+            </div>
+
+	        {% else %}
+            
+                <a href="{% url 'product_list' %}"><strong>Home</strong></a>
+                <a href="{% url 'about' %}"><strong>About</strong></a>
+                <a href="{% url 'product_list' %}"><strong>Product</strong></a>
+                <a href="#contact"><strong>Orders</strong></a>
+                <a href="{% url 'logout' %}"><strong>Logout</strong></a>
+                <div class="logo-container">               
+            </div>
+                <div class="logo-container">
+                    <img src="static/store/images/HALAL.png" alt="Your Logo" class="logo" width="80" height="40"><strong>Maranao Cuisine</strong>
+            </div>
+                      
+                {% endif %}
+	{% else %}
+    
+    <a class="navbar-brand">
+        <img src="static/store/images/HALAL.png" alt="Your Logo" width="80" height="40"><strong>Maranao Cuisine</strong>
+      </a>
+        <nav class="navbar bg-body-tertiary" >
+          </nav>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">              
+                    <li><a href="{% url 'login' %}"><strong>LOGIN</strong></a></li>
+                    <li><a href="{% url 'signup' %}"><strong>SIGNUP</strong></a></li> 
+                    <li><a href="{% url 'product_list' %}"><strong>HOME</strong></a></li>  
+                    <li><a href="{% url 'about' %}"><strong>ABOUT</strong></a></li>           
+                </ul>
+            </div>
+        {% endif %}
+    </nav>
+    {% block content %}
+        
+    {% endblock %}
+
+    <!-- Bootstrap JS and dependencies (jQuery and Popper.js) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
